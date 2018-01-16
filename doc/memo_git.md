@@ -5,6 +5,9 @@
   * git-flowプラグインに代表される、推奨されるbranchモデルについて解釈してメモっておく。  
     
 
+## gitコミットログ
+  * gitにおけるコミットログの例文集へのリンク  
+    https://gist.github.com/mono0926/e6ffd032c384ee4c1cef5a2aa4f778d7
 
 
 ## gitデーモン
