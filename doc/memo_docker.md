@@ -60,5 +60,35 @@ $ docker rmi -f $(docker images -f dangling=true -q)
 どうやら、本家サイトにもこの方法が紹介されている様です。
 
 参考URL(本家サイト)：https://docs.docker.com/engine/reference/commandline/images/#filtering
+----
 
+
+## Docker RUN時に実行されたゴミの削除
+
+パラメータ指定の不備などで、  
+$ docker run xxxxxx  
+の実行に失敗した場合にも、  
+$ docker ps -a  
+をすると、docker側が自動で名前をつけた状態で走ってしまっています。
+
+```
+vagrant@ubuntu-xenial:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS               NAMES
+d7302ef448d1        test/dotnet:1.0     "--name my_dotnet --…"   3 hours ago         Created                                         infallible_beaver
+3edc5cb041ae        test/dotnet:1.0     "--name dotnet --pri…"   3 hours ago         Created                                         blissful_bardeen
+df12dcc51050        test/dotnet:1.0     "--name dotnet --pri…"   3 hours ago         Created                                         quizzical_keller
+7250fd59e811        b1bba73d9ce0        "/bin/sh -c 'apt-get…"   22 hours ago        Exited (100) 22 hours ago                       lucid_agnesi
+dbc17ba40404        7a23933336a9        "/bin/sh -c 'apt-get…"   23 hours ago        Exited (100) 23 hours ago                       zen_albattani
+40b2ad379dab        b96d7c64667a        "/bin/sh -c 'apt-get…"   23 hours ago        Exited (100) 23 hours ago                       goofy_leakey
+852f48e83b12        e1cb46b3a7ce        "/bin/sh -c 'apt-get…"   24 hours ago        Exited (100) 23 hours ago                       adoring_nobel
+2556d840111a        naotaru/study       "/bin/bash"              2 weeks ago         Up 4 hours                                      study
+
+```
+dockerが勝手にNAMEをつけてくれているので、やっちまったイメージを docker rm で削除すればOKです。  
+```
+$ docker rm infallible_beaver
+$ docker rm blissful_bardeen
+：
+$ docker rm adoring_nobel
+```
 
