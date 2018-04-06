@@ -22,7 +22,7 @@ $ sudo rm -rf /var/lib/apt/lists/*
 $ sudo apt-get update
 ```
 
-参考URL：https://qiita.com/TsutomuNakamura/items/93e4a4ea0e587160fcaf
+参考URL：https://qiita.com/TsutomuNakamura/items/93e4a4ea0e587160fcaf  
 
 
 
@@ -37,6 +37,6 @@ $ sudo apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y curl apt-transport-https
 ```
 
-参考URL：http://inokara.hateblo.jp/entry/2014/02/06/070834
-参考URL：http://d.hatena.ne.jp/mainyaa/20140203/p1
+参考URL：http://inokara.hateblo.jp/entry/2014/02/06/070834  
+参考URL：http://d.hatena.ne.jp/mainyaa/20140203/p1  
 
