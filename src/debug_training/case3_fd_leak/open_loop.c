@@ -39,11 +39,8 @@ int main( int argc, char* argv[] )
 		/* create open file path string */
 		snprintf( wk_name, SURFIX_SIZE, "/test%04d",loop );
 		strncat( of_path, wk_name, SURFIX_SIZE+1 );
-//		printf("of_path=%s\n",of_path);
 
 		fd = open( of_path, O_RDWR | O_CREAT | O_TRUNC, S_IRWXU | S_IRWXG | S_IRWXO );
-
-		printf("fd=%d\n",fd);
 
 		usleep(SLEEP_uS_TIME*4);
 
