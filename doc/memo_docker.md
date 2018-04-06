@@ -32,6 +32,20 @@ docker tag naotaru/study:1.2 naotaru/study:latest
 docker push naotaru/study:1.2 
 docker push naotaru/study:latest
 ```
+
+
+### ローカルのイメージを走らせる(特権、MQ、共有フォルダマウント付き)
+```
+sudo docker run --name my_study --privileged --ulimit msgqueue=12582912:12582912 -v /home/vagrant/share:/root/share -i -t test/dotnet:1.0
+```
+test/dotnet:1.0は、ローカルBuildしたイメージで、dockerhubにアップ(PUSH)していないもの。
+
+
+### startとexec
+```
+docker start my_study
+docker exec -it my_study /bin/bash
+```
 ----
 
 
