@@ -1,9 +1,21 @@
+
 # 自分用メモ
 
 
 ## gitコマンド
   * (T.B.D.) 後でgit-flowプラグインに代表される、推奨されるbranchモデルについて解釈してメモっておく。  
     
+  * リモートブランチ(originのbranchname)を強制削除する
+     ```
+     $ git push --delete origin branchname
+     ```
+
+  * フォーク元(upstream)の差分を、自分(originのmaster)に取りこむ
+     ```
+     $ git remote add upstream git://github.com/octocat/Spoon-Knife.git
+     $ git fetch upstream
+     $ git merge upstream/master
+     ```
 
 ## gitコミットログ
   * gitにおけるコミットログの例文集へのリンク  
@@ -34,5 +46,4 @@
         git daemon --reuseaddr --base-path=/var/lib/git/ /var/lib/git/ &
     * 新オプション  
         git daemon --reuseaddr --base-path=/var/lib/git/ --enable=receive-pack /var/lib/git/ &
-
 
