@@ -66,7 +66,7 @@ int main( int argc, char* argv[] )
 		close( fd[loop] );
 
 		/* remove files */
-		system("rm test*");
+		//system("rm test*");
 	}
 
     return 0;
