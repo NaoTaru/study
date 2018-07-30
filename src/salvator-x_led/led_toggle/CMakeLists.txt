@@ -11,7 +11,9 @@ target_include_directories(led_toggle PRIVATE ./inc)
 target_compile_options(led_toggle PRIVATE -g3)
 target_compile_options(led_toggle PRIVATE -O0)
 
-#link_directories(${CMAKE_INSTALL_PREFIX}/lib)
-#target_link_libraries(led_toggle sifutil)
-#target_link_libraries(led_toggle sifutil)
+# ライブラリの参照パスを設定
+link_directories(${SYSROOT_PREFIX}/lib)
+
+# インクルードの参照パスを設定
+include_directories(${SYSROOT_PREFIX}/usr/include)
 
