@@ -5,20 +5,80 @@
 
 #include <led.h>
 
-int led_ctrl( int val )
+int led_initialize( void )
 {
-	int fd;
-	char c;
+	int fd_exp;
+	int fd_dir;
 
-	fd = open( LED4_DEVICE,  O_RDWR );
+	ssize_t write_size;
 
-	if( fd < 0 )
+	int ret;
+
+	fd_exp = open( SYS_CLASS_GPIO_EXPORT,  O_WRONLY );
+
+	if( fd_exp < 0 )
 	{
-		perror("LED4_DEVICE device file open failed");
-		exit(RET_NG);
+		perror("SYS_CLASS_GPIO_EXPORT open failed");
+		return RET_NG;
 	}
 
-	if( val == 0 )
+	write_size = write( fd_exp, GPIO_PIN_NUMBER, 3 );
+	if( write_size != 3 )
+	{
+		perror("SYS_CLASS_GPIO_EXPORT write failed");
+		return RET_NG;
+	}
+
+	ret = close( fd_exp );
+	if( ret != 0 )
+	{
+		perror("SYS_CLASS_GPIO_EXPORT close failed");
+		return RET_NG;
+	}
+
+	fd_dir = open( GPIO_LED_SYSFS_FILE_DIR,  O_RDWR );
+	if( fd_dir < 0 )
+	{
+		perror("GPIO direction file open failed");
+		return RET_NG;
+	}
+
+	write_size = write( fd_dir, "out", 3 );
+	if( write_size != 3 )
+	{
+		perror("GPIO direction file write failed");
+		return RET_NG;
+	}
+
+	ret = close( fd_dir );
+	if( ret != 0 )
+	{
+		perror("GPIO direction file close failed");
+		return RET_NG;
+	}
+
+	return RET_OK;
+}
+
+
+
+int led_ctrl( int val )
+{
+	int fd_val;
+	int ret;
+
+	ssize_t write_size;
+
+	char c;
+
+	fd_val = open( GPIO_LED_SYSFS_FILE_VALUE,  O_RDWR );
+	if( fd_val < 0 )
+	{
+		perror("GPIO Value file open failed");
+		return RET_NG;
+	}
+
+	if( val == LED_OFF )
 	{
 		c = '0';
 	}
@@ -27,31 +87,53 @@ int led_ctrl( int val )
 		c = '1';
 	}
 
-	write( fd, &c, 1 );
+	write_size = write( fd_val, &c, 1 );
+	if( write_size != 1 )
+	{
+		perror("GPIO Value file write failed");
+		return RET_NG;
+	}
 
-	close( fd );
+	ret = close( fd_val );
+	if( ret != 0 )
+	{
+		perror("GPIO Value file close failed");
+		return RET_NG;
+	}
 
 	return RET_OK;
 }
 
+
+
 int main()
 {
 	int i;
+	int ret;
+	int val;
 
     printf("Hello,World!!\n");
 
+	ret = led_initialize();
+
 	/* Toggle Output Level */
-	for( i = 0 ; i < 1/*min*/ * 60/*sec*/ ; i++ )
+	for( i = 0 ; i < 60 ; i++ )
 	{
-		sleep(1);
+		usleep(250000);
 
 		if( i % 2 == 0 )
 		{
-			led_ctrl( LED_OFF );
+			val = LED_OFF;
 		}
 		else
 		{
-			led_ctrl( LED_ON );
+			val = LED_ON;
+		}
+
+		ret = led_ctrl( val );
+		if( ret != RET_OK )
+		{
+			return RET_NG;
 		}
 	}
 
@@ -59,3 +141,4 @@ int main()
 
     return RET_OK;
 }
+
